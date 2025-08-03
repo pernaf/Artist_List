@@ -9,8 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,10 +43,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    val artist = Artist (
+                    val artist = Artist(
                         name = "Leonardo da Vinci",
                         lastSeeOnline = "3 minutes ago",
-                        image = R.drawable.ic_leonardo_da_vinci
+                        image = R.drawable.ic_leonardo_da_vinci,
+                        art = R.drawable.ic_mona_lisa
                     )
                     ArtistCard(artist)
                 }
@@ -51,41 +57,61 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 @Composable
 fun ArtistCard(artist: Artist) {
-    Row (verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.FillWidth,
-            painter = painterResource(id = artist.image), contentDescription = "Artist image")
 
-        Spacer(modifier = Modifier.size(16.dp))
+    Column(
+        modifier = Modifier.padding(8.dp)
+    ) {
 
-        Column {
-            Text(
-                artist.name,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.FillWidth,
+                painter = painterResource(id = artist.image), contentDescription = "Artist image"
             )
-            Text(
-                artist.lastSeeOnline,
-                color = Color.Gray
+
+            Spacer(modifier = Modifier.size(16.dp))
+
+            Column {
+                Text(
+                    artist.name,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    artist.lastSeeOnline,
+                    color = Color.Gray
+                )
+            }
+        }
+        Card(
+            modifier = Modifier
+                .padding(8.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.Crop,
+                painter = painterResource(id = artist.art),
+                contentDescription = "artist art"
             )
         }
-
     }
 }
 
-data class Artist (
+data class Artist(
     val name: String,
     val lastSeeOnline: String,
     @DrawableRes val image: Int,
+    @DrawableRes val art: Int,
 )
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun ArtistCardPreview() {
     ComposeInitTheme {
@@ -93,6 +119,7 @@ fun ArtistCardPreview() {
             name = "Leonardo da Vinci",
             lastSeeOnline = "3 minutes ago",
             image = R.drawable.ic_leonardo_da_vinci,
+            art = R.drawable.ic_mona_lisa
         )
         ArtistCard(artist)
     }
