@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.internal.composableLambda
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,130 +46,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    val leonardo = Artist(
-                        name = "Leonardo da Vinci",
-                        lastSeeOnline = "3 minutes ago",
-                        image = R.drawable.ic_leonardo_da_vinci,
-                        art = R.drawable.ic_mona_lisa
-                    )
-
-                    val picasso = Artist(
-                        name = "Pablo Picasso",
-                        lastSeeOnline = "5 minutes ago",
-                        image = R.drawable.ic_pablo_picasso,
-                        art = R.drawable.ic_beijo
-                    )
-
-                    val vanGogh = Artist(
-                        name = "Vicent Van Gogh",
-                        lastSeeOnline = "2 minutes ago",
-                        image = R.drawable.ic_vincent_van_gogh,
-                        art = R.drawable.ic_starry_night
-                    )
-
-                    val salvador = Artist(
-                        name = "Salvador Dali",
-                        lastSeeOnline = "7 minutes ago",
-                        image = R.drawable.ic_salvador_dali,
-                        art = R.drawable.ic_persistence_of_memory
-                    )
-
-                    val artists = listOf(vanGogh, salvador, picasso, leonardo)
-
-                    LazyColumn {
-                        items(artists) { artist ->
-                            ArtistCard(
-                                artist = artist,
-                                onClick = {
-                                    println("testando click")
-                                }
-                            )
-                        }
-                    }
+                    App()
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun ArtistCard(
-    artist: Artist,
-    onClick: () -> Unit
-
-) {
-
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable(onClick = onClick)
-    ) {
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.FillWidth,
-                painter = painterResource(id = artist.image), contentDescription = "Artist image"
-            )
-
-            Spacer(modifier = Modifier.size(16.dp))
-
-            Column {
-                Text(
-                    artist.name,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    artist.lastSeeOnline,
-                    color = Color.Gray
-                )
-            }
-        }
-        Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(id = artist.art),
-                contentDescription = "artist art"
-            )
-        }
-    }
-}
-
-data class Artist(
-    val name: String,
-    val lastSeeOnline: String,
-    @DrawableRes val image: Int,
-    @DrawableRes val art: Int,
-)
-
-@Preview(showBackground = true)
-@Composable
-fun ArtistCardPreview() {
-    ComposeInitTheme {
-        val artist = Artist(
-            name = "Leonardo da Vinci",
-            lastSeeOnline = "3 minutes ago",
-            image = R.drawable.ic_leonardo_da_vinci,
-            art = R.drawable.ic_mona_lisa
-        )
-        ArtistCard(
-            artist = artist,
-            onClick = {
-                println("testando click")
-            }
-        )
     }
 }
 
